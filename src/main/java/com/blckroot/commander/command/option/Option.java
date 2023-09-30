@@ -1,4 +1,4 @@
-package com.blckroot.commander.option;
+package com.blckroot.commander.command.option;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -1,7 +1,7 @@
-package com.blckroot.commander;
+package com.blckroot.commander.command;
 
-import com.blckroot.commander.option.Option;
-import com.blckroot.commander.positionalParameter.PositionalParameter;
+import com.blckroot.commander.command.option.Option;
+import com.blckroot.commander.command.positionalParameter.PositionalParameter;
 
 import java.util.ArrayList;
 import java.util.List;
