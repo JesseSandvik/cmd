@@ -58,4 +58,16 @@ public class Command {
     public void setUsageDescriptionFull(String usageDescriptionFull) {
         this.usageDescriptionFull = usageDescriptionFull;
     }
+
+    public void addPositionalParameter(PositionalParameter positionalParameter) {
+        this.positionalParameters.add(positionalParameter);
+    }
+
+    public void addOption(Option option) {
+        this.options.add(option);
+    }
+
+    public void addSubcommand(Command subcommand) {
+        this.subcommands.add(subcommand);
+    }
 }

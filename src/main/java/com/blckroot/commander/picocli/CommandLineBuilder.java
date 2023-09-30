@@ -8,6 +8,8 @@ import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Model.PositionalParamSpec;
 import picocli.CommandLine.Model.OptionSpec;
 
+import java.util.List;
+
 public class CommandLineBuilder {
     private final Command command;
     private final CommandSpec commandSpec;
@@ -68,9 +70,9 @@ public class CommandLineBuilder {
     private void addOption(Option option) {
         OptionSpec.Builder optionSpecBuilder;
         if (option.getShortName() == null) {
-            optionSpecBuilder = OptionSpec.builder(new String[]{option.getLongName(), option.getShortName()});
+            optionSpecBuilder = OptionSpec.builder(option.getLongName());
         } else {
-            optionSpecBuilder = OptionSpec.builder(new String[]{option.getLongName()});
+            optionSpecBuilder = OptionSpec.builder(option.getLongName(), option.getShortName());
         }
 
         if (option.getParameterLabel() != null) {
@@ -84,17 +86,44 @@ public class CommandLineBuilder {
         this.commandSpec.addOption(optionSpecBuilder.build());
     }
 
+    private void addSubcommand(CommandLine subcommand) {
+        this.commandSpec.addSubcommand(subcommand.getCommandName(), subcommand);
+    }
+
+    private void buildPositionalParameters(List<PositionalParameter> positionalParameters) {
+        for (PositionalParameter positionalParameter : positionalParameters) {
+            this.addPositionalParameter(positionalParameter);
+        }
+    }
+
+    private void buildOptions(List<Option> options) {
+        for (Option option : options) {
+            this.addOption(option);
+        }
+    }
+
+    private void buildSubcommands(List<Command> subcommands) {
+        for (Command subcommand : subcommands) {
+            CommandLineBuilder subcommandBuilder = new CommandLineBuilder(subcommand).addStandardHelpOption();
+
+            if (subcommand.getVersion() != null) {
+                subcommandBuilder.addStandardVersionOption();
+            }
+            this.addSubcommand(subcommandBuilder.build());
+        }
+    }
+
     public CommandLine build() {
         if (!command.getPositionalParameters().isEmpty()) {
-            for (PositionalParameter positionalParameter : command.getPositionalParameters()) {
-                this.addPositionalParameter(positionalParameter);
-            }
+            buildPositionalParameters(command.getPositionalParameters());
         }
 
         if (!command.getOptions().isEmpty()) {
-            for (Option option : command.getOptions()) {
-                this.addOption(option);
-            }
+            buildOptions(command.getOptions());
+        }
+
+        if (!command.getSubcommands().isEmpty()) {
+            buildSubcommands(command.getSubcommands());
         }
 
         return new CommandLine(this.commandSpec);
