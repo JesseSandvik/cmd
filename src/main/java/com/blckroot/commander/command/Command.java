@@ -11,7 +11,7 @@ public class Command {
     private String version;
     private String usageDescriptionSynopsis;
     private String usageDescriptionFull;
-    private final List<PositionalParameter> parameters = new ArrayList<>();
+    private final List<PositionalParameter> positionalParameters = new ArrayList<>();
     private final List<Option> options = new ArrayList<>();
     private final List<Command> subcommands = new ArrayList<>();
 
@@ -35,8 +35,8 @@ public class Command {
         return usageDescriptionFull;
     }
 
-    public List<PositionalParameter> getParameters() {
-        return parameters;
+    public List<PositionalParameter> getPositionalParameters() {
+        return positionalParameters;
     }
 
     public List<Option> getOptions() {
