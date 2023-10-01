@@ -39,7 +39,7 @@ public class CommandLineBuilder {
                 .commandListHeading("\nCommands:%n");
     }
 
-    public CommandLineBuilder addStandardHelpOption() {
+    public CommandLineBuilder addStandardUsageHelpOption() {
         this.commandSpec.addOption(OptionSpec
                 .builder("-h", "--help")
                 .usageHelp(true)
@@ -49,7 +49,7 @@ public class CommandLineBuilder {
         return this;
     }
 
-    public CommandLineBuilder addStandardVersionOption() {
+    public CommandLineBuilder addStandardVersionHelpOption() {
         this.commandSpec.addOption(OptionSpec
                 .builder("-v", "--version")
                 .versionHelp(true)
@@ -104,10 +104,10 @@ public class CommandLineBuilder {
 
     private void buildSubcommands(List<Command> subcommands) {
         for (Command subcommand : subcommands) {
-            CommandLineBuilder subcommandBuilder = new CommandLineBuilder(subcommand).addStandardHelpOption();
+            CommandLineBuilder subcommandBuilder = new CommandLineBuilder(subcommand).addStandardUsageHelpOption();
 
             if (subcommand.getVersion() != null) {
-                subcommandBuilder.addStandardVersionOption();
+                subcommandBuilder.addStandardVersionHelpOption();
             }
             this.addSubcommand(subcommandBuilder.build());
         }
