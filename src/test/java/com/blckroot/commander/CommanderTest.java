@@ -2,6 +2,7 @@ package com.blckroot.commander;
 
 import com.blckroot.commander.command.Command;
 import com.blckroot.commander.command.ExecutableCommand;
+import com.blckroot.commander.command.option.Option;
 import com.blckroot.commander.command.positionalParameter.PositionalParameter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -162,6 +163,130 @@ public class CommanderTest {
         assertTrue(outContent.toString().contains(command.getName()));
         assertTrue(outContent.toString().contains(positionalParameter.label()));
         assertTrue(outContent.toString().contains(positionalParameter.description()));
+        assertTrue(outContent.toString().contains("-h"));
+        assertTrue(outContent.toString().contains("--help"));
+        assertFalse(outContent.toString().contains("-v"));
+        assertFalse(outContent.toString().contains("--version"));
+        assertEquals(errContent.toString(), "");
+    }
+    //  | - OPTION TESTS --------------------------------------------------------------------------------------------- |
+    @Test
+    public void printsCommandUsageInformationForStandardUsageHelpOptionShortWithOptionLongNameOnly() throws Exception {
+        Command command = new Command("testCommand");
+        Option option = new Option("--test-option", "Description for test option.");
+        command.addOption(option);
+
+        setUpCommander(command);
+        int exitCode = COMMANDER.execute(new String[]{"-h"});
+
+        assertEquals(exitCode, 0);
+        assertTrue(outContent.toString().contains(command.getName()));
+        assertTrue(outContent.toString().contains(option.getLongName()));
+        assertTrue(outContent.toString().contains(option.getDescription()));
+        assertTrue(outContent.toString().contains("-h"));
+        assertTrue(outContent.toString().contains("--help"));
+        assertFalse(outContent.toString().contains("-v"));
+        assertFalse(outContent.toString().contains("--version"));
+        assertEquals(errContent.toString(), "");
+    }
+
+    @Test
+    public void printsCommandUsageInformationForStandardUsageHelpOptionLongWithOptionLongNameOnly() throws Exception {
+        Command command = new Command("testCommand");
+        Option option = new Option("--test-option", "Description for test option.");
+        command.addOption(option);
+
+        setUpCommander(command);
+        int exitCode = COMMANDER.execute(new String[]{"--help"});
+
+        assertEquals(exitCode, 0);
+        assertTrue(outContent.toString().contains(command.getName()));
+        assertTrue(outContent.toString().contains(option.getLongName()));
+        assertTrue(outContent.toString().contains(option.getDescription()));
+        assertTrue(outContent.toString().contains("-h"));
+        assertTrue(outContent.toString().contains("--help"));
+        assertFalse(outContent.toString().contains("-v"));
+        assertFalse(outContent.toString().contains("--version"));
+        assertEquals(errContent.toString(), "");
+    }
+
+    @Test
+    public void printsCommandUsageInformationForStandardUsageHelpOptionShortWithOptionLongNameOnlyWithoutParameterLabelForOptionTypeBoolean() throws Exception {
+        Command command = new Command("testCommand");
+        Option option = new Option("--test-option", "Description for test option.", "<labelA>", true);
+        command.addOption(option);
+
+        setUpCommander(command);
+        int exitCode = COMMANDER.execute(new String[]{"-h"});
+
+        assertEquals(exitCode, 0);
+        assertTrue(outContent.toString().contains(command.getName()));
+        assertTrue(outContent.toString().contains(option.getLongName()));
+        assertFalse(outContent.toString().contains(option.getParameterLabel()));
+        assertTrue(outContent.toString().contains(option.getDescription()));
+        assertTrue(outContent.toString().contains("-h"));
+        assertTrue(outContent.toString().contains("--help"));
+        assertFalse(outContent.toString().contains("-v"));
+        assertFalse(outContent.toString().contains("--version"));
+        assertEquals(errContent.toString(), "");
+    }
+
+    @Test
+    public void printsCommandUsageInformationForStandardUsageHelpOptionLongWithOptionLongNameOnlyWithoutParameterLabelForOptionTypeBoolean() throws Exception {
+        Command command = new Command("testCommand");
+        Option option = new Option("--test-option", "Description for test option.", "<labelA>", true);
+        command.addOption(option);
+
+        setUpCommander(command);
+        int exitCode = COMMANDER.execute(new String[]{"--help"});
+
+        assertEquals(exitCode, 0);
+        assertTrue(outContent.toString().contains(command.getName()));
+        assertTrue(outContent.toString().contains(option.getLongName()));
+        assertFalse(outContent.toString().contains(option.getParameterLabel()));
+        assertTrue(outContent.toString().contains(option.getDescription()));
+        assertTrue(outContent.toString().contains("-h"));
+        assertTrue(outContent.toString().contains("--help"));
+        assertFalse(outContent.toString().contains("-v"));
+        assertFalse(outContent.toString().contains("--version"));
+        assertEquals(errContent.toString(), "");
+    }
+
+    @Test
+    public void printsCommandUsageInformationForStandardUsageHelpOptionShortWithOptionLongNameOnlyWithParameterLabelForOptionNotTypeBoolean() throws Exception {
+        Command command = new Command("testCommand");
+        Option option = new Option("--test-option", "Description for test option.", "<labelA>", false);
+        command.addOption(option);
+
+        setUpCommander(command);
+        int exitCode = COMMANDER.execute(new String[]{"-h"});
+
+        assertEquals(exitCode, 0);
+        assertTrue(outContent.toString().contains(command.getName()));
+        assertTrue(outContent.toString().contains(option.getLongName()));
+        assertTrue(outContent.toString().contains(option.getParameterLabel()));
+        assertTrue(outContent.toString().contains(option.getDescription()));
+        assertTrue(outContent.toString().contains("-h"));
+        assertTrue(outContent.toString().contains("--help"));
+        assertFalse(outContent.toString().contains("-v"));
+        assertFalse(outContent.toString().contains("--version"));
+        assertEquals(errContent.toString(), "");
+    }
+
+    @Test
+    public void printsCommandUsageInformationForStandardUsageHelpOptionLongWithOptionLongNameOnlyWithParameterLabelForOptionNotTypeBoolean() throws Exception {
+        Command command = new Command("testCommand");
+        Option option = new Option("--test-option", "Description for test option.", "<labelA>", false);
+        command.addOption(option);
+
+        setUpCommander(command);
+        int exitCode = COMMANDER.execute(new String[]{"--help"});
+
+        assertEquals(exitCode, 0);
+        assertTrue(outContent.toString().contains(command.getName()));
+        assertTrue(outContent.toString().contains(option.getLongName()));
+        assertTrue(outContent.toString().contains(option.getParameterLabel()));
+        assertTrue(outContent.toString().contains(option.getDescription()));
         assertTrue(outContent.toString().contains("-h"));
         assertTrue(outContent.toString().contains("--help"));
         assertFalse(outContent.toString().contains("-v"));
