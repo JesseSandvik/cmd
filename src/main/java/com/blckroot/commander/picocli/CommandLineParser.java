@@ -1,27 +1,31 @@
 package com.blckroot.commander.picocli;
 
-import com.blckroot.commander.command.Command;
+import com.blckroot.commander.command.ExecutableCommand;
 import picocli.CommandLine;
 import picocli.CommandLine.ParseResult;
+import picocli.CommandLine.Model.PositionalParamSpec;
+import picocli.CommandLine.Model.OptionSpec;
+
+import java.util.List;
 
 public class CommandLineParser {
-    private final Command rootCommand;
+    private final ExecutableCommand executableCommand;
 
-    public CommandLineParser(Command rootCommand) {
-        this.rootCommand = rootCommand;
+    public CommandLineParser(ExecutableCommand executableCommand) {
+        this.executableCommand = executableCommand;
     }
 
-    public Integer parse(String[] arguments) {
-        CommandLine commandLine = new CommandLineBuilder(rootCommand)
+    public Integer parse(String[] arguments) throws Exception {
+        CommandLine commandLine = new CommandLineBuilder(executableCommand)
                 .addStandardUsageHelpOption()
                 .addStandardVersionHelpOption()
                 .build();
 
         ParseResult parseResult = commandLine.parseArgs(arguments);
-        return parseResultHandler(parseResult, rootCommand, commandLine);
+        return parseResults(parseResult, executableCommand, commandLine);
     }
 
-    private Integer parseResultHandler(ParseResult parseResult, Command command, CommandLine commandLine) {
+    private Integer parseResults(ParseResult parseResult, ExecutableCommand executableCommand, CommandLine commandLine) throws Exception {
         boolean helpIsOnlyArgument = parseResult.expandedArgs().size() == 1 &&
                 parseResult.expandedArgs().get(0).equalsIgnoreCase("help");
 
@@ -31,6 +35,15 @@ public class CommandLineParser {
 
         if (commandLine.isVersionHelpRequested()) {
             return versionHelp(commandLine);
+        }
+
+        parsePositionalParameters(parseResult, executableCommand);
+        parseOptions(parseResult, executableCommand);
+
+        if (parseResult.subcommands().isEmpty()) {
+            return executableCommand.call();
+        } else {
+            parseSubcommands(parseResult, executableCommand, commandLine);
         }
 
         return 0;
@@ -46,7 +59,43 @@ public class CommandLineParser {
         return commandLine.getCommandSpec().exitCodeOnVersionHelp();
     }
 
-    private void parsePositionalParameters(ParseResult parseResult, Command command) {}
+    private void parsePositionalParameters(ParseResult parseResult, ExecutableCommand executableCommand) {
+        List<PositionalParamSpec> parsedPositionalParameters = parseResult.matchedPositionals();
 
-    private void parseOptions(ParseResult parseResult, Command command) {}
+        if (!parsedPositionalParameters.isEmpty()) {
+            for (PositionalParamSpec parsedPositionalParameter : parsedPositionalParameters) {
+                System.out.println("Positional Index: " + parsedPositionalParameter.index());
+                System.out.println("Positional Value: " + parsedPositionalParameter.getValue());
+                executableCommand.setPositionalParameterValueToParameterPosition(
+                        Integer.valueOf(String.valueOf(parsedPositionalParameter.index())),
+                        parsedPositionalParameter.getValue()
+                );
+            }
+        }
+    }
+
+    private void parseOptions(ParseResult parseResult, ExecutableCommand executableCommand) {
+        List<OptionSpec> parsedOptions = parseResult.matchedOptions();
+
+        if (!parsedOptions.isEmpty()) {
+            for (OptionSpec optionSpec : parsedOptions) {
+                System.out.println("Option Name: " + optionSpec.longestName());
+                System.out.println("Option Value: " + optionSpec.getValue());
+                executableCommand.setOptionValueToOptionLongName(optionSpec.longestName(), optionSpec.getValue());
+            }
+        }
+    }
+
+    private void parseSubcommands(ParseResult parseResult, ExecutableCommand executableCommand, CommandLine commandLine) throws Exception {
+        for (ParseResult subcommandParseResult : parseResult.subcommands()) {
+            String subcommandName = subcommandParseResult.commandSpec().name();
+
+            for (ExecutableCommand executableSubcommand : executableCommand.getExecutableSubcommands()) {
+                if (executableSubcommand.getName().equalsIgnoreCase(subcommandName)) {
+                    CommandLine subcommandLine = commandLine.getSubcommands().get(subcommandName);
+                    parseResults(subcommandParseResult, executableSubcommand, subcommandLine);
+                }
+            }
+        }
+    }
 }

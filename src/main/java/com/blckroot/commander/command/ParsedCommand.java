@@ -18,10 +18,10 @@ public class ParsedCommand extends Command {
         return optionValuesToOptionLongNames;
     }
 
-    public void setPositionalParameterValueToParameterPosition(Object value, Integer position) {
+    public void setPositionalParameterValueToParameterPosition(Integer position, Object value) {
         positionalParameterValuesToParameterPositions.put(position, value);
     }
-    public void setOptionValueToOptionLongName(Object value, String name) {
+    public void setOptionValueToOptionLongName(String name, Object value) {
         optionValuesToOptionLongNames.put(name, value);
     }
 }
