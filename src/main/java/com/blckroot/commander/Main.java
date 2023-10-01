@@ -4,7 +4,6 @@ import com.blckroot.commander.command.Command;
 import com.blckroot.commander.command.ExecutableCommand;
 import com.blckroot.commander.command.option.Option;
 import com.blckroot.commander.command.positionalParameter.PositionalParameter;
-import com.blckroot.commander.picocli.CommandLineParser;
 
 public class Main {
     public static void main(String[] args) throws Exception {

@@ -1,4 +1,4 @@
-package com.blckroot.commander.picocli;
+package com.blckroot.commander;
 
 import com.blckroot.commander.command.Command;
 import com.blckroot.commander.command.option.Option;
@@ -10,7 +10,7 @@ import picocli.CommandLine.Model.OptionSpec;
 
 import java.util.List;
 
-public class CommandLineBuilder {
+class CommandLineBuilder {
     private final Command command;
     private final CommandSpec commandSpec;
 

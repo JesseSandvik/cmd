@@ -3,7 +3,7 @@ package com.blckroot.commander.command;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ParsedCommand extends Command {
+class ParsedCommand extends Command {
     private final Map<Integer, Object> positionalParameterValuesToParameterPositions = new LinkedHashMap<>();
     private final Map<String, Object> optionValuesToOptionLongNames = new LinkedHashMap<>();
     public ParsedCommand(String name) {

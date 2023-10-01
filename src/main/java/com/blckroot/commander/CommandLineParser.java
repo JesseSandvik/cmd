@@ -1,4 +1,4 @@
-package com.blckroot.commander.picocli;
+package com.blckroot.commander;
 
 import com.blckroot.commander.command.ExecutableCommand;
 import picocli.CommandLine;
@@ -8,7 +8,7 @@ import picocli.CommandLine.Model.OptionSpec;
 
 import java.util.List;
 
-public class CommandLineParser {
+class CommandLineParser {
     private final ExecutableCommand executableCommand;
 
     public CommandLineParser(ExecutableCommand executableCommand) {
@@ -64,8 +64,6 @@ public class CommandLineParser {
 
         if (!parsedPositionalParameters.isEmpty()) {
             for (PositionalParamSpec parsedPositionalParameter : parsedPositionalParameters) {
-                System.out.println("Positional Index: " + parsedPositionalParameter.index());
-                System.out.println("Positional Value: " + parsedPositionalParameter.getValue());
                 executableCommand.setPositionalParameterValueToParameterPosition(
                         Integer.valueOf(String.valueOf(parsedPositionalParameter.index())),
                         parsedPositionalParameter.getValue()
@@ -79,8 +77,6 @@ public class CommandLineParser {
 
         if (!parsedOptions.isEmpty()) {
             for (OptionSpec optionSpec : parsedOptions) {
-                System.out.println("Option Name: " + optionSpec.longestName());
-                System.out.println("Option Value: " + optionSpec.getValue());
                 executableCommand.setOptionValueToOptionLongName(optionSpec.longestName(), optionSpec.getValue());
             }
         }
