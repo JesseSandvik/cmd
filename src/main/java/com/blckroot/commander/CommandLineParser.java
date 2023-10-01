@@ -16,11 +16,13 @@ class CommandLineParser {
     }
 
     public Integer parse(String[] arguments) throws Exception {
-        CommandLine commandLine = new CommandLineBuilder(executableCommand)
-                .addStandardUsageHelpOption()
-                .addStandardVersionHelpOption()
-                .build();
+        CommandLineBuilder commandLineBuilder = new CommandLineBuilder(executableCommand).addStandardUsageHelpOption();
 
+        if (executableCommand.getVersion() != null) {
+            commandLineBuilder.addStandardVersionHelpOption();
+        }
+
+        CommandLine commandLine = commandLineBuilder.build();
         ParseResult parseResult = commandLine.parseArgs(arguments);
         return parseResults(parseResult, executableCommand, commandLine);
     }
