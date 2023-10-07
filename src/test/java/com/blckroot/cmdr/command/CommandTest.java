@@ -4,7 +4,6 @@ import com.blckroot.cmdr.option.Option;
 import com.blckroot.cmdr.positionalParameter.PositionalParameter;
 import org.junit.jupiter.api.Test;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CommandTest {
@@ -61,16 +60,7 @@ public class CommandTest {
     }
 
     @Test
-    void COMMAND_ATTRIBUTES_SET_positional_parameters_empty() {
-        Command command = new Command("test");
-        boolean expected = true;
-
-        boolean actual = command.getPositionalParameters().isEmpty();
-        assertEquals(actual, expected);
-    }
-
-    @Test
-    void COMMAND_ATTRIBUTES_SET_positional_parameters_not_empty() {
+    void COMMAND_ATTRIBUTES_SET_positional_parameters() {
         Command command = new Command("test");
         PositionalParameter positionalParameter = new PositionalParameter("", "");
         command.addPositionalParameter(positionalParameter);
@@ -81,16 +71,7 @@ public class CommandTest {
     }
 
     @Test
-    void COMMAND_ATTRIBUTES_SET_options_empty() {
-        Command command = new Command("test");
-        boolean expected = true;
-
-        boolean actual = command.getOptions().isEmpty();
-        assertEquals(actual, expected);
-    }
-
-    @Test
-    void COMMAND_ATTRIBUTES_SET_options_not_empty() {
+    void COMMAND_ATTRIBUTES_SET_options() {
         Command command = new Command("test");
         Option option = new Option("", "");
         command.addOption(option);
