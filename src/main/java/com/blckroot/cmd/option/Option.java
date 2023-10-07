@@ -1,6 +1,6 @@
-package com.blckroot.cmdr.option;
+package com.blckroot.cmd.option;
 
-import com.blckroot.cmdr.string.StringService;
+import com.blckroot.cmd.string.StringService;
 
 public class Option implements OptionContract {
     private final String longestName;

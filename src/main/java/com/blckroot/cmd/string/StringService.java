@@ -1,4 +1,4 @@
-package com.blckroot.cmdr.string;
+package com.blckroot.cmd.string;
 
 public class StringService implements StringServiceContract {
     private final StringServiceUtility stringServiceUtility;

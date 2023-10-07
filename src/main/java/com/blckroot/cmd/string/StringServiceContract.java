@@ -1,4 +1,4 @@
-package com.blckroot.cmdr.string;
+package com.blckroot.cmd.string;
 
 interface StringServiceContract {
     String getShortestStringInArray(String[] strings);

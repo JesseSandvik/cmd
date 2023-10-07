@@ -1,4 +1,4 @@
-package com.blckroot.cmdr.positionalParameter;
+package com.blckroot.cmd.positionalParameter;
 
 public class PositionalParameter implements PositionalParameterContract {
     private final String label;

@@ -1,4 +1,4 @@
-package com.blckroot.cmdr.command;
+package com.blckroot.cmd.command;
 
 import java.util.List;
 

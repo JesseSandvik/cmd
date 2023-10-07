@@ -1,4 +1,4 @@
-package com.blckroot.cmdr.filesystem;
+package com.blckroot.cmd.filesystem;
 
 interface FileSystemServiceContract {
     Boolean fileExists(String filePath);

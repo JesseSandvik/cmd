@@ -1,4 +1,4 @@
-package com.blckroot.cmdr.option;
+package com.blckroot.cmd.option;
 
 interface OptionContract {
     String getLongestName();

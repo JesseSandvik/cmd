@@ -1,4 +1,4 @@
-package com.blckroot.cmdr.filesystem;
+package com.blckroot.cmd.filesystem;
 
 public class FileSystemService implements FileSystemServiceContract {
     private final FileSystemServiceUtility fileSystemServiceUtility = new FileSystemServiceUtility();
