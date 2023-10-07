@@ -12,6 +12,7 @@ import java.util.*;
 
 public class ExecutableCommand extends Command implements ExecutableCommandContract {
     private final String executableFilePath;
+    private final List<ExecutableCommand> executableSubcommands = new ArrayList<>();
     private final List<String> arguments = new ArrayList<>();
 
     public ExecutableCommand(String name, String executableFilePath) {
@@ -24,10 +25,32 @@ public class ExecutableCommand extends Command implements ExecutableCommandContr
     }
 
     @Override
+    public List<ExecutableCommand> getExecutableSubcommands() {
+        return this.executableSubcommands;
+    }
+
+    @Override
+    public void addExecutableSubcommand(ExecutableCommand executableSubcommand) {
+        this.executableSubcommands.add(executableSubcommand);
+    }
+
+    @Override
     public Integer call() throws Exception {
+        System.out.println(executableFilePath);
         FileSystemService fileSystemService = new FileSystemService();
 
         if (fileSystemService.fileExists(executableFilePath) && fileSystemService.fileCanExecute(executableFilePath)) {
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                String bashExecutablePath = "C:\\Program Files\\Git\\bin\\bash.exe";
+                String shExecutablePath = "C:\\Program Files\\Git\\bin\\sh.exe";
+                if (fileSystemService.fileExists(bashExecutablePath) &&
+                fileSystemService.fileCanExecute(bashExecutablePath)) {
+                    this.arguments.add(bashExecutablePath);
+                } else if (fileSystemService.fileExists(shExecutablePath) &&
+                        fileSystemService.fileCanExecute(shExecutablePath)) {
+                    this.arguments.add(shExecutablePath);
+                }
+            }
             this.arguments.add(executableFilePath);
 
             if (!this.getPositionalParameters().isEmpty()) {

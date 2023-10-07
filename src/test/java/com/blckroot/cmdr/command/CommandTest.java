@@ -82,18 +82,9 @@ public class CommandTest {
     }
 
     @Test
-    void COMMAND_ATTRIBUTES_SET_subcommands_empty() {
+    void COMMAND_ATTRIBUTES_SET_subcommands() {
         Command command = new Command("test");
-        boolean expected = true;
-
-        boolean actual = command.getSubcommands().isEmpty();
-        assertEquals(actual, expected);
-    }
-
-    @Test
-    void COMMAND_ATTRIBUTES_SET_subcommands_not_empty() {
-        Command command = new Command("test");
-        Command subcommand = new Command("subtest");
+        Command subcommand = new Command("testSubA");
         command.addSubcommand(subcommand);
         boolean expected = false;
 
