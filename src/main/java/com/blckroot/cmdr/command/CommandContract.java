@@ -8,22 +8,18 @@ import java.util.List;
 interface CommandContract {
     String getName();
     String getVersion();
-    String getUsageDescriptionSynopsis();
-    String getUsageDescriptionFull();
-    Boolean executesWithoutArguments();
-    List<PositionalParameter> getPositionalParameters();
-    List<Option> getOptions();
-    List<Command> getSubcommands();
-    Object getPositionalParameterValueByIndex(Integer index);
-    Object getOptionValueByLongestName(String longestName);
     void setVersion(String version);
+    String getUsageDescriptionSynopsis();
     void setUsageDescriptionSynopsis(String usageDescriptionSynopsis);
+    String getUsageDescriptionFull();
     void setUsageDescriptionFull(String usageDescriptionFull);
+    Boolean executesWithoutArguments();
     void executesWithoutArguments(Boolean executesWithoutArguments);
+    List<PositionalParameter> getPositionalParameters();
     void addPositionalParameter(PositionalParameter positionalParameter);
+    List<Option> getOptions();
     void addOption(Option option);
+    List<Command> getSubcommands();
     void addSubcommand(Command subcommand);
-    void setPositionalParameterIndexToValue(Integer index, Object value);
-    void setOptionLongestNameToValue(String longestName, Object value);
     Integer call() throws Exception;
 }

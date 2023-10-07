@@ -1,6 +1,6 @@
 package com.blckroot.cmdr.string;
 
-class StringServiceUtility {
+class StringServiceUtility implements StringServiceContract {
     public String getShortestStringInArray(String[] strings) {
         String shortestString = null;
 

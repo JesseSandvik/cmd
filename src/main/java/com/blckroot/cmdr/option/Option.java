@@ -7,6 +7,7 @@ public class Option implements OptionContract {
     private final String shortestName;
     private final String description;
     private final String parameterLabel;
+    private Object value;
 
     public Option(String[] names, String description, String parameterLabel) {
         StringService stringService = new StringService();
@@ -56,5 +57,15 @@ public class Option implements OptionContract {
     @Override
     public String getParameterLabel() {
         return parameterLabel;
+    }
+
+    @Override
+    public Object getValue() {
+        return this.value;
+    }
+
+    @Override
+    public void setValue(Object value) {
+        this.value = value;
     }
 }

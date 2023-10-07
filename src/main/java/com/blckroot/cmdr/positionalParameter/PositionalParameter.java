@@ -3,6 +3,7 @@ package com.blckroot.cmdr.positionalParameter;
 public class PositionalParameter implements PositionalParameterContract {
     private final String label;
     private final String description;
+    private Object value;
 
     public PositionalParameter(String label, String description) {
         this.label = label;
@@ -11,11 +12,21 @@ public class PositionalParameter implements PositionalParameterContract {
 
     @Override
     public String getLabel() {
-        return label;
+        return this.label;
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return this.description;
+    }
+
+    @Override
+    public Object getValue() {
+        return this.value;
+    }
+
+    @Override
+    public void setValue(Object value) {
+        this.value = value;
     }
 }
