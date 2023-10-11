@@ -1,8 +1,6 @@
-package com.blckroot.cmd.command;
+package com.blckroot.cmd;
 
 import com.blckroot.cmd.filesystem.FileSystemService;
-import com.blckroot.cmd.option.Option;
-import com.blckroot.cmd.positionalParameter.PositionalParameter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,12 +8,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class ExecutableCommand extends Command implements ExecutableCommandContract {
+public class PluginCommand extends Command implements PluginCommandContract {
     private final String executableFilePath;
-    private final List<ExecutableCommand> executableSubcommands = new ArrayList<>();
+    private final List<PluginCommand> pluginSubcommands = new ArrayList<>();
     private final List<String> arguments = new ArrayList<>();
 
-    public ExecutableCommand(String name, String executableFilePath) {
+    public PluginCommand(String name, String executableFilePath) {
         super(name);
         this.executableFilePath = executableFilePath;
     }
@@ -25,13 +23,13 @@ public class ExecutableCommand extends Command implements ExecutableCommandContr
     }
 
     @Override
-    public List<ExecutableCommand> getExecutableSubcommands() {
-        return this.executableSubcommands;
+    public List<PluginCommand> getPluginSubcommands() {
+        return this.pluginSubcommands;
     }
 
     @Override
-    public void addExecutableSubcommand(ExecutableCommand executableSubcommand) {
-        this.executableSubcommands.add(executableSubcommand);
+    public void addPluginSubcommand(PluginCommand pluginCommand) {
+        this.pluginSubcommands.add(pluginCommand);
     }
 
     @Override

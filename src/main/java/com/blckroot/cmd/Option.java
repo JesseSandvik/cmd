@@ -1,4 +1,4 @@
-package com.blckroot.cmd.option;
+package com.blckroot.cmd;
 
 import com.blckroot.cmd.string.StringService;
 
@@ -6,7 +6,7 @@ public class Option implements OptionContract {
     private final String longestName;
     private final String shortestName;
     private final String description;
-    private final String parameterLabel;
+    private String parameterLabel;
     private Object value;
 
     public Option(String[] names, String description, String parameterLabel) {
@@ -62,6 +62,11 @@ public class Option implements OptionContract {
     @Override
     public Object getValue() {
         return this.value;
+    }
+
+    @Override
+    public void setParameterLabel(String parameterLabel) {
+        this.parameterLabel = parameterLabel;
     }
 
     @Override

@@ -1,7 +1,8 @@
 package com.blckroot.cmd.command;
 
-import com.blckroot.cmd.option.Option;
-import com.blckroot.cmd.positionalParameter.PositionalParameter;
+import com.blckroot.cmd.Command;
+import com.blckroot.cmd.Option;
+import com.blckroot.cmd.PositionalParameter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

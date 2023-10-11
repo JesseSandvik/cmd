@@ -1,7 +1,8 @@
 package com.blckroot.cmd.command;
 
-import com.blckroot.cmd.option.Option;
-import com.blckroot.cmd.positionalParameter.PositionalParameter;
+import com.blckroot.cmd.PluginCommand;
+import com.blckroot.cmd.Option;
+import com.blckroot.cmd.PositionalParameter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ public class ExecutableCommandTest {
     @Test
     void EXECUTABLE_COMMAND_ATTRIBUTES_SET_name() {
         String expected = "test";
-        ExecutableCommand executableCommand = new ExecutableCommand(expected, "");
+        PluginCommand executableCommand = new PluginCommand(expected, "");
 
         String actual = executableCommand.getName();
         assertEquals(actual, expected);
@@ -42,7 +43,7 @@ public class ExecutableCommandTest {
 
     @Test
     void EXECUTABLE_COMMAND_ATTRIBUTES_SET_version() {
-        ExecutableCommand executableCommand = new ExecutableCommand("test", "");
+        PluginCommand executableCommand = new PluginCommand("test", "");
         String expected = "1.2.3";
         executableCommand.setVersion(expected);
 
@@ -52,7 +53,7 @@ public class ExecutableCommandTest {
 
     @Test
     void EXECUTABLE_COMMAND_ATTRIBUTES_SET_usage_description_synopsis() {
-        ExecutableCommand executableCommand = new ExecutableCommand("test", "");
+        PluginCommand executableCommand = new PluginCommand("test", "");
         String expected = "Test description synopsis.";
         executableCommand.setUsageDescriptionSynopsis(expected);
 
@@ -62,7 +63,7 @@ public class ExecutableCommandTest {
 
     @Test
     void EXECUTABLE_COMMAND_ATTRIBUTES_SET_usage_description_full() {
-        ExecutableCommand executableCommand = new ExecutableCommand("test", "");
+        PluginCommand executableCommand = new PluginCommand("test", "");
         String expected = "Test description full.";
         executableCommand.setUsageDescriptionFull(expected);
 
@@ -72,7 +73,7 @@ public class ExecutableCommandTest {
 
     @Test
     void EXECUTABLE_COMMAND_ATTRIBUTES_SET_executes_without_arguments() {
-        ExecutableCommand executableCommand = new ExecutableCommand("test", "");
+        PluginCommand executableCommand = new PluginCommand("test", "");
         boolean expected = true;
         executableCommand.executesWithoutArguments(expected);
 
@@ -82,7 +83,7 @@ public class ExecutableCommandTest {
 
     @Test
     void EXECUTABLE_COMMAND_ATTRIBUTES_SET_positional_parameters() {
-        ExecutableCommand executableCommand = new ExecutableCommand("test", "");
+        PluginCommand executableCommand = new PluginCommand("test", "");
         PositionalParameter positionalParameter = new PositionalParameter("", "");
         executableCommand.addPositionalParameter(positionalParameter);
         boolean expected = false;
@@ -93,7 +94,7 @@ public class ExecutableCommandTest {
 
     @Test
     void EXECUTABLE_COMMAND_ATTRIBUTES_SET_options() {
-        ExecutableCommand executableCommand = new ExecutableCommand("test", "");
+        PluginCommand executableCommand = new PluginCommand("test", "");
         Option option = new Option("", "");
         executableCommand.addOption(option);
         boolean expected = false;
@@ -104,8 +105,8 @@ public class ExecutableCommandTest {
 
     @Test
     void EXECUTABLE_COMMAND_ATTRIBUTES_SET_executable_subcommands() {
-        ExecutableCommand executableCommand = new ExecutableCommand("test", "");
-        ExecutableCommand executableSubcommand = new ExecutableCommand("subtest", "");
+        PluginCommand executableCommand = new PluginCommand("test", "");
+        PluginCommand executableSubcommand = new PluginCommand("subtest", "");
         executableCommand.addExecutableSubcommand(executableSubcommand);
         boolean expected = false;
 
@@ -116,7 +117,7 @@ public class ExecutableCommandTest {
     @Test
     void EXECUTABLE_COMMAND_ATTRIBUTES_SET_executable_file_path() {
         String expected = "/src/file/path";
-        ExecutableCommand executableCommand = new ExecutableCommand("test", expected);
+        PluginCommand executableCommand = new PluginCommand("test", expected);
 
         String actual = executableCommand.getExecutableFilePath();
         assertEquals(actual, expected);
@@ -126,7 +127,7 @@ public class ExecutableCommandTest {
 
     @Test
     void EXECUTABLE_COMMAND_call_no_arguments() throws Exception {
-        ExecutableCommand executableCommand = new ExecutableCommand("test", "");
+        PluginCommand executableCommand = new PluginCommand("test", "");
         int expected = 0;
 
         int actual = executableCommand.call();
@@ -135,7 +136,7 @@ public class ExecutableCommandTest {
 
     @Test
     void EXECUTABLE_COMMAND_call_positional_parameter() throws Exception {
-        ExecutableCommand executableCommand = new ExecutableCommand("echo", "src/test/resources/echo");
+        PluginCommand executableCommand = new PluginCommand("echo", "src/test/resources/echo");
         PositionalParameter positionalParameter = new PositionalParameter("", "");
         String expected = "Hello, World!";
         positionalParameter.setValue(expected);
@@ -147,7 +148,7 @@ public class ExecutableCommandTest {
 
     @Test
     void EXECUTABLE_COMMAND_call_option_boolean() throws Exception {
-        ExecutableCommand executableCommand = new ExecutableCommand("echo", "src/test/resources/echo");
+        PluginCommand executableCommand = new PluginCommand("echo", "src/test/resources/echo");
         Option option = new Option(new String[]{"-t", "--test"}, "");
         option.setValue(true);
         executableCommand.addOption(option);
@@ -159,7 +160,7 @@ public class ExecutableCommandTest {
 
     @Test
     void EXECUTABLE_COMMAND_call_option_string() throws Exception {
-        ExecutableCommand executableCommand = new ExecutableCommand("echo", "src/test/resources/echo");
+        PluginCommand executableCommand = new PluginCommand("echo", "src/test/resources/echo");
         Option option = new Option(new String[]{"-t", "--test"}, "", "");
         String value = "Hello";
         option.setValue(value);

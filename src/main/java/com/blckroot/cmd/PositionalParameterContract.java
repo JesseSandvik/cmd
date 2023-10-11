@@ -1,4 +1,4 @@
-package com.blckroot.cmd.positionalParameter;
+package com.blckroot.cmd;
 
 interface PositionalParameterContract {
     String getLabel();

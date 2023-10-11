@@ -1,4 +1,4 @@
-package com.blckroot.cmd.option;
+package com.blckroot.cmd;
 
 interface OptionContract {
     String getLongestName();
@@ -6,5 +6,6 @@ interface OptionContract {
     String getDescription();
     String getParameterLabel();
     Object getValue();
+    void setParameterLabel(String parameterLabel);
     void setValue(Object value);
 }
