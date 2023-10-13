@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class PluginCommand extends Command implements PluginCommandContract {
-    private final String executableFilePath;
+    private String executableFilePath;
     private final List<PluginCommand> pluginSubcommands = new ArrayList<>();
     private final List<String> arguments = new ArrayList<>();
 
@@ -33,33 +33,72 @@ public class PluginCommand extends Command implements PluginCommandContract {
     }
 
     @Override
-    public Integer call() throws Exception {
-        System.out.println(executableFilePath);
-        FileSystemService fileSystemService = new FileSystemService();
+    public Integer call() {
+        try {
+            FileSystemService fileSystemService = new FileSystemService();
 
-        if (fileSystemService.fileExists(executableFilePath) && fileSystemService.fileCanExecute(executableFilePath)) {
-            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-                String bashExecutablePath = "C:\\Program Files\\Git\\bin\\bash.exe";
-                String shExecutablePath = "C:\\Program Files\\Git\\bin\\sh.exe";
-                if (fileSystemService.fileExists(bashExecutablePath) &&
-                fileSystemService.fileCanExecute(bashExecutablePath)) {
-                    this.arguments.add(bashExecutablePath);
-                } else if (fileSystemService.fileExists(shExecutablePath) &&
-                        fileSystemService.fileCanExecute(shExecutablePath)) {
-                    this.arguments.add(shExecutablePath);
+            if (fileSystemService.fileExists(executableFilePath) && fileSystemService.fileCanExecute(executableFilePath)) {
+                if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                    String bashExecutablePath = "C:\\Program Files\\Git\\bin\\bash.exe";
+                    String shExecutablePath = "C:\\Program Files\\Git\\bin\\sh.exe";
+                    if (fileSystemService.fileExists(bashExecutablePath) &&
+                            fileSystemService.fileCanExecute(bashExecutablePath)) {
+                        this.arguments.add(bashExecutablePath);
+                    } else if (fileSystemService.fileExists(shExecutablePath) &&
+                            fileSystemService.fileCanExecute(shExecutablePath)) {
+                        this.arguments.add(shExecutablePath);
+                    }
+                }
+                this.arguments.add(executableFilePath);
+
+                if (!this.getPositionalParameters().isEmpty()) {
+                    setPositionalParameterArguments();
+                }
+
+                if (!this.getOptions().isEmpty()) {
+                    setOptionArguments();
+                }
+
+                return execute(arguments);
+            } else {
+                if (this.getParentCommandName() != null) {
+                    String executableFileParentDirectory =
+                            executableFilePath.substring(0, executableFilePath.lastIndexOf("/"));
+                    System.out.println("EXECUTABLE PARENT DIRECTORY: " + executableFileParentDirectory);
+                    String parentCommandDirectory = executableFileParentDirectory + "/" + this.getParentCommandName() + "/";
+
+                    if (fileSystemService.fileExists(parentCommandDirectory)) {
+                        executableFilePath = parentCommandDirectory + this.getName();
+
+                        System.out.println("EXECUTABLE FILE PATH: " + executableFilePath);
+
+                        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                            String bashExecutablePath = "C:\\Program Files\\Git\\bin\\bash.exe";
+                            String shExecutablePath = "C:\\Program Files\\Git\\bin\\sh.exe";
+                            if (fileSystemService.fileExists(bashExecutablePath) &&
+                                    fileSystemService.fileCanExecute(bashExecutablePath)) {
+                                this.arguments.add(bashExecutablePath);
+                            } else if (fileSystemService.fileExists(shExecutablePath) &&
+                                    fileSystemService.fileCanExecute(shExecutablePath)) {
+                                this.arguments.add(shExecutablePath);
+                            }
+                        }
+                        this.arguments.add(executableFilePath);
+
+                        if (!this.getPositionalParameters().isEmpty()) {
+                            setPositionalParameterArguments();
+                        }
+
+                        if (!this.getOptions().isEmpty()) {
+                            setOptionArguments();
+                        }
+
+                        return execute(arguments);
+                    }
                 }
             }
-            this.arguments.add(executableFilePath);
-
-            if (!this.getPositionalParameters().isEmpty()) {
-                setPositionalParameterArguments();
-            }
-
-            if (!this.getOptions().isEmpty()) {
-                setOptionArguments();
-            }
-
-            return execute(arguments);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
         return 0;
     }

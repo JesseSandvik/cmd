@@ -12,6 +12,8 @@ interface CommandContract {
     void setUsageDescriptionFull(String usageDescriptionFull);
     Boolean executesWithoutArguments();
     void executesWithoutArguments(Boolean executesWithoutArguments);
+    String getParentCommandName();
+    void setParentCommandName(String parentCommandName);
     List<PositionalParameter> getPositionalParameters();
     void addPositionalParameter(PositionalParameter positionalParameter);
     List<Option> getOptions();

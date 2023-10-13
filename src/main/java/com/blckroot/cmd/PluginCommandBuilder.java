@@ -54,6 +54,7 @@ public class PluginCommandBuilder implements PluginCommandBuilderContract {
         final String SYNOPSIS_PROPERTY_KEY="synopsis";
         final String DESCRIPTION_PROPERTY_KEY="description";
         final String EXECUTES_WITHOUT_ARGUMENTS_PROPERTY_KEY="executes.without.arguments";
+        final String PARENT_COMMAND_NAME_PROPERTY_KEY="parent.command";
 
         if (properties.getProperty(VERSION_PROPERTY_KEY) != null) {
             this.pluginCommand.setVersion(properties.getProperty(VERSION_PROPERTY_KEY));
@@ -72,7 +73,12 @@ public class PluginCommandBuilder implements PluginCommandBuilderContract {
                     .executesWithoutArguments(Boolean.valueOf(
                             properties.getProperty(EXECUTES_WITHOUT_ARGUMENTS_PROPERTY_KEY)));
         }
+
+        if (properties.getProperty(PARENT_COMMAND_NAME_PROPERTY_KEY) != null) {
+            this.pluginCommand.setParentCommandName(properties.getProperty(PARENT_COMMAND_NAME_PROPERTY_KEY));
+        }
     }
+
     private void setPluginCommandPositionalParameters(Properties properties) {
         final String POSITIONAL_PARAMETER_LABELS_PROPERTY_KEY="positional.parameter.labels";
         final String POSITIONAL_PARAMETER_DESCRIPTION_PROPERTY_KEY="positional.parameter.description";
@@ -89,6 +95,7 @@ public class PluginCommandBuilder implements PluginCommandBuilderContract {
             }
         }
     }
+
     private void setPluginCommandOptions(Properties properties) {
         final String OPTION_LONG_NAMES_PROPERTY_KEY="option.long.names";
         final String OPTION_SHORT_NAME_PROPERTY_KEY="option.short.name";
@@ -120,5 +127,6 @@ public class PluginCommandBuilder implements PluginCommandBuilderContract {
             }
         }
     }
+
     private void buildPluginCommandPluginSubcommands(Properties properties) {}
 }

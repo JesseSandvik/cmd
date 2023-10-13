@@ -10,6 +10,7 @@ public class Command implements CommandContract, Callable<Integer> {
     private String usageDescriptionSynopsis;
     private String usageDescriptionFull;
     private Boolean executesWithoutArguments = false;
+    private String parentCommandName;
     private final List<PositionalParameter> positionalParameters = new ArrayList<>();
     private final List<Option> options = new ArrayList<>();
     private final List<Command> subcommands = new ArrayList<>();
@@ -61,6 +62,16 @@ public class Command implements CommandContract, Callable<Integer> {
     @Override
     public void executesWithoutArguments(Boolean executesWithoutArguments) {
         this.executesWithoutArguments = executesWithoutArguments;
+    }
+
+    @Override
+    public String getParentCommandName() {
+        return this.parentCommandName;
+    }
+
+    @Override
+    public void setParentCommandName(String parentCommandName) {
+        this.parentCommandName = parentCommandName;
     }
 
     @Override
