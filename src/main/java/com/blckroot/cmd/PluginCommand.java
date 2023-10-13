@@ -64,13 +64,10 @@ public class PluginCommand extends Command implements PluginCommandContract {
                 if (this.getParentCommandName() != null) {
                     String executableFileParentDirectory =
                             executableFilePath.substring(0, executableFilePath.lastIndexOf("/"));
-                    System.out.println("EXECUTABLE PARENT DIRECTORY: " + executableFileParentDirectory);
                     String parentCommandDirectory = executableFileParentDirectory + "/" + this.getParentCommandName() + "/";
 
                     if (fileSystemService.fileExists(parentCommandDirectory)) {
                         executableFilePath = parentCommandDirectory + this.getName();
-
-                        System.out.println("EXECUTABLE FILE PATH: " + executableFilePath);
 
                         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
                             String bashExecutablePath = "C:\\Program Files\\Git\\bin\\bash.exe";

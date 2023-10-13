@@ -31,25 +31,27 @@ public class PluginCommandBuilder implements PluginCommandBuilderContract {
     }
 
     @Override
-    public PluginCommand build() throws IOException {
-        if (propertiesFileDirectory != null) {
-            String commandPropertiesFilePath = propertiesFileDirectory + pluginCommand.getName() + ".properties";
-            FileSystemService fileSystemService = new FileSystemService();
-            properties = fileSystemService.getPropertiesFromPropertiesFile(commandPropertiesFilePath);
-        }
+    public PluginCommand build() {
+        try {
+            if (propertiesFileDirectory != null) {
+                String commandPropertiesFilePath = propertiesFileDirectory + pluginCommand.getName() + ".properties";
+                FileSystemService fileSystemService = new FileSystemService();
+                properties = fileSystemService.getPropertiesFromPropertiesFile(commandPropertiesFilePath);
+            }
 
-        if (properties != null) {
-            System.out.println("Setting properties.");
-            setPluginCommandAttributes(properties);
-            setPluginCommandPositionalParameters(properties);
-            setPluginCommandOptions(properties);
-            buildPluginCommandPluginSubcommands(properties);
+            if (properties != null) {
+                setAttributes(properties);
+                buildPositionalParameters(properties);
+                buildOptions(properties);
+                buildPluginSubcommands(properties);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-
         return pluginCommand;
     }
 
-    private void setPluginCommandAttributes(Properties properties) {
+    private void setAttributes(Properties properties) {
         final String VERSION_PROPERTY_KEY="version";
         final String SYNOPSIS_PROPERTY_KEY="synopsis";
         final String DESCRIPTION_PROPERTY_KEY="description";
@@ -79,7 +81,7 @@ public class PluginCommandBuilder implements PluginCommandBuilderContract {
         }
     }
 
-    private void setPluginCommandPositionalParameters(Properties properties) {
+    private void buildPositionalParameters(Properties properties) {
         final String POSITIONAL_PARAMETER_LABELS_PROPERTY_KEY="positional.parameter.labels";
         final String POSITIONAL_PARAMETER_DESCRIPTION_PROPERTY_KEY="positional.parameter.description";
 
@@ -96,7 +98,7 @@ public class PluginCommandBuilder implements PluginCommandBuilderContract {
         }
     }
 
-    private void setPluginCommandOptions(Properties properties) {
+    private void buildOptions(Properties properties) {
         final String OPTION_LONG_NAMES_PROPERTY_KEY="option.long.names";
         final String OPTION_SHORT_NAME_PROPERTY_KEY="option.short.name";
         final String OPTION_DESCRIPTION_PROPERTY_KEY="option.description";
@@ -128,5 +130,24 @@ public class PluginCommandBuilder implements PluginCommandBuilderContract {
         }
     }
 
-    private void buildPluginCommandPluginSubcommands(Properties properties) {}
+    private void buildPluginSubcommands(Properties properties) {
+        final String SUBCOMMANDS_PROPERTY_KEY="subcommands";
+
+        if (properties.getProperty(SUBCOMMANDS_PROPERTY_KEY) != null) {
+            String[] subcommandNames = properties.getProperty(SUBCOMMANDS_PROPERTY_KEY).split(",");
+
+            for (String subcommandName : subcommandNames) {
+                String executableFileParentDirectory =
+                        this.pluginCommand.getExecutableFilePath().substring(0, this.pluginCommand.getExecutableFilePath().lastIndexOf("/"));
+                PluginCommandBuilder subcommandPluginCommandBuilder = new PluginCommandBuilder(subcommandName, executableFileParentDirectory + "/" + subcommandName);
+
+                if (propertiesFileDirectory != null) {
+                    subcommandPluginCommandBuilder.propertiesFileDirectory(propertiesFileDirectory);
+                } else {
+                    subcommandPluginCommandBuilder.properties(this.properties);
+                }
+                this.pluginCommand.addPluginSubcommand(subcommandPluginCommandBuilder.build());
+            }
+        }
+    }
 }
