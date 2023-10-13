@@ -10,8 +10,8 @@ public class PluginCommandBuilder implements PluginCommandBuilderContract {
     private String propertiesFileDirectory;
     private Properties properties;
 
-    public PluginCommandBuilder(String commandName, String executableFilePath) {
-        this.pluginCommand = new PluginCommand(commandName, executableFilePath);
+    public PluginCommandBuilder(String commandName, String executableFileDirectory) {
+        this.pluginCommand = new PluginCommand(commandName, executableFileDirectory);
     }
 
     @Override
@@ -137,9 +137,7 @@ public class PluginCommandBuilder implements PluginCommandBuilderContract {
             String[] subcommandNames = properties.getProperty(SUBCOMMANDS_PROPERTY_KEY).split(",");
 
             for (String subcommandName : subcommandNames) {
-                String executableFileParentDirectory =
-                        this.pluginCommand.getExecutableFilePath().substring(0, this.pluginCommand.getExecutableFilePath().lastIndexOf("/"));
-                PluginCommandBuilder subcommandPluginCommandBuilder = new PluginCommandBuilder(subcommandName, executableFileParentDirectory + "/" + subcommandName);
+                PluginCommandBuilder subcommandPluginCommandBuilder = new PluginCommandBuilder(subcommandName,  this.pluginCommand.getExecutableFileDirectory());
 
                 if (propertiesFileDirectory != null) {
                     subcommandPluginCommandBuilder.propertiesFileDirectory(propertiesFileDirectory);

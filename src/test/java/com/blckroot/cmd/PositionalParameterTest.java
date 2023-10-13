@@ -1,4 +1,4 @@
-package com.blckroot.cmd.positionalParameter;
+package com.blckroot.cmd;
 
 import com.blckroot.cmd.PositionalParameter;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.blckroot.cmd.option;
+package com.blckroot.cmd;
 
 import com.blckroot.cmd.Option;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,5 @@
-package com.blckroot.cmd.command;
+package com.blckroot.cmd;
 
-import com.blckroot.cmd.Command;
-import com.blckroot.cmd.Option;
-import com.blckroot.cmd.PositionalParameter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,6 +54,16 @@ public class CommandTest {
         command.executesWithoutArguments(expected);
 
         boolean actual = command.executesWithoutArguments();
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    void COMMAND_ATTRIBUTES_SET_parent_command_name() {
+        Command command = new Command("test");
+        String expected = "echoParent";
+        command.setParentCommandName(expected);
+
+        String actual = command.getParentCommandName();
         assertEquals(actual, expected);
     }
 

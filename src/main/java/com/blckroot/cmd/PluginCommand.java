@@ -9,17 +9,17 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class PluginCommand extends Command implements PluginCommandContract {
-    private String executableFilePath;
+    private final String executableFileDirectory;
     private final List<PluginCommand> pluginSubcommands = new ArrayList<>();
     private final List<String> arguments = new ArrayList<>();
 
-    public PluginCommand(String name, String executableFilePath) {
+    public PluginCommand(String name, String executableFileDirectory) {
         super(name);
-        this.executableFilePath = executableFilePath;
+        this.executableFileDirectory = executableFileDirectory;
     }
 
-    public String getExecutableFilePath() {
-        return this.executableFilePath;
+    public String getExecutableFileDirectory() {
+        return this.executableFileDirectory;
     }
 
     @Override
@@ -36,6 +36,7 @@ public class PluginCommand extends Command implements PluginCommandContract {
     public Integer call() {
         try {
             FileSystemService fileSystemService = new FileSystemService();
+            String executableFilePath = executableFileDirectory + this.getName();
 
             if (fileSystemService.fileExists(executableFilePath) && fileSystemService.fileCanExecute(executableFilePath)) {
                 if (System.getProperty("os.name").toLowerCase().contains("windows")) {
